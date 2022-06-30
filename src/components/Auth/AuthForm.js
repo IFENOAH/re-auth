@@ -18,35 +18,41 @@ const AuthForm = () => {
     const enteredPassWord = passwordInputRef.current.value;
 
     setIsLoading(true);
+    let url;
     if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAxX3hYrZo0qAxVYAalQ3LoQQrJHpzWUs4";
     } else {
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxX3hYrZo0qAxVYAalQ3LoQQrJHpzWUs4",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassWord,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication Failed";
-            if (data && data.error && data.error.message) {
-              errorMessage = data?.error.message;
-            }
-            alert(errorMessage);
-          });
-        }
-      });
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxX3hYrZo0qAxVYAalQ3LoQQrJHpzWUs4";
     }
+
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxX3hYrZo0qAxVYAalQ3LoQQrJHpzWUs4",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassWord,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => {
+      setIsLoading(false);
+      if (res.ok) {
+      } else {
+        return res.json().then((data) => {
+          let errorMessage = "Authentication Failed";
+          if (data && data.error && data.error.message) {
+            errorMessage = data?.error.message;
+          }
+          alert(errorMessage);
+        });
+      }
+    });
   };
 
   return (
